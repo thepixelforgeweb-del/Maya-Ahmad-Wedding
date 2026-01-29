@@ -39,9 +39,3 @@
   to = "/dashboard.html"
   status = 200
 
-# Catch-all for index (handles device detection)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-

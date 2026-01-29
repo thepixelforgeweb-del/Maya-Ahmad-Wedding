@@ -4,64 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maya & Ahmad — 27 June 2026</title>
-    <style>
-        body { margin: 0; padding: 0; }
-        #app { display: none; }
-        #app.show { display: block; }
-    </style>
 </head>
-<body>
-    <div id="app"></div>
-
+<body style="margin: 0; padding: 0;">
     <script>
-        (async function() {
-            // Detect if device is mobile
-            function isMobileDevice() {
-                if (window.innerWidth <= 768) return true;
-                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-                return mobileRegex.test(userAgent.toLowerCase());
-            }
+        // Detect if device is mobile
+        function isMobileDevice() {
+            if (window.innerWidth <= 768) return true;
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+            return mobileRegex.test(userAgent.toLowerCase());
+        }
 
-            // Load appropriate version
-            const isMobile = isMobileDevice();
-            const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
+        // Silently redirect to appropriate version
+        const isMobile = isMobileDevice();
+        const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
 
-            try {
-                const response = await fetch(fileName);
-                const html = await response.text();
-
-                // Extract body content from the fetched HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-
-                // Copy the body content
-                document.body.innerHTML = doc.body.innerHTML;
-
-                // Copy all scripts from the fetched document and execute them
-                const scripts = doc.querySelectorAll('script');
-                scripts.forEach(script => {
-                    const newScript = document.createElement('script');
-                    if (script.src) {
-                        newScript.src = script.src;
-                    } else {
-                        newScript.textContent = script.textContent;
-                    }
-                    document.body.appendChild(newScript);
-                });
-
-                // Copy all styles from the fetched document
-                const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
-                styles.forEach(style => {
-                    const newStyle = style.cloneNode(true);
-                    document.head.appendChild(newStyle);
-                });
-
-            } catch (error) {
-                console.error('Error loading page:', error);
-                document.body.innerHTML = '<p style="text-align: center; padding: 50px; color: #999;">Error loading page. Please refresh.</p>';
-            }
-        })();
+        // Use replace to avoid adding to browser history
+        window.location.replace(fileName);
     </script>
 </body>
 </html>
