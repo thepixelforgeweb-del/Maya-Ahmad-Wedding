@@ -1,0 +1,52 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+# Redirect /api/* paths to Netlify Functions
+[[redirects]]
+  from = "/api/guests"
+  to = "/.netlify/functions/guests"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/api/guests/*"
+  to = "/.netlify/functions/guests"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/api/stats"
+  to = "/.netlify/functions/stats"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/api/export/csv"
+  to = "/.netlify/functions/export-csv"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200
+  force = false
+
+# Serve HTML files for SPA routing
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/mobile"
+  to = "/maya-ahmad-wedding-mobile.html"
+  status = 200
+
+# Catch-all for index
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+

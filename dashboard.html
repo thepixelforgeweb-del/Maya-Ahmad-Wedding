@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya & Ahmad — RSVP Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blush: #F5E6E8;
+            --blush-deep: #E8D4D8;
+            --rose: #D4A5A5;
+            --rose-muted: #C9B1B1;
+            --cream: #FFFAF8;
+            --warm-white: #FDF9F7;
+            --text-primary: #3D3D3D;
+            --text-soft: #6B6B6B;
+            --text-light: #8A8A8A;
+            --gold-accent: #C9A959;
+            --success: #7BA887;
+            --warning: #D4A55A;
+            --danger: #C97B7B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            background-color: #F8F5F3;
+            color: var(--text-primary);
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 260px;
+            background: var(--cream);
+            border-right: 1px solid var(--blush);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid var(--blush);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .sidebar-logo span {
+            color: var(--rose);
+        }
+
+        .sidebar-date {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: var(--blush);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--rose);
+            color: white;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        .nav-item.active svg {
+            opacity: 1;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--blush);
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--text-primary);
+            color: white;
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--rose);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--blush-deep);
+            background: var(--cream);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--rose);
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: white;
+            border-color: var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--rose);
+            border-color: var(--rose);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--cream);
+            padding: 1.5rem;
+            border: 1px solid var(--blush);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--rose);
+        }
+
+        .stat-card.attending::before { background: var(--success); }
+        .stat-card.pending::before { background: var(--warning); }
+        .stat-card.declined::before { background: var(--danger); }
+        .stat-card.dietary::before { background: var(--gold-accent); }
+
+        .stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        .stat-subtext {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            margin-top: 0.5rem;
+        }
+
+        /* Event Stats */
+        .event-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .event-stat {
+            background: var(--cream);
+            padding: 1.25rem;
+            border: 1px solid var(--blush);
+            text-align: center;
+        }
+
+        .event-stat-title {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 0.75rem;
+        }
+
+        .event-stat-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+
+        .event-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-soft);
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--cream);
+            border: 1px solid var(--blush);
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--blush);
+        }
+
+        .panel-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+        }
+
+        /* Search & Filter */
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--blush-deep);
+            background: var(--warm-white);
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--rose);
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--blush-deep);
+            background: var(--warm-white);
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            border-color: var(--rose);
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--blush);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--blush);
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: var(--warm-white);
+        }
+
+        .guest-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .guest-email {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+        }
+
+        .guest-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--blush);
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 2px;
+        }
+
+        .status-attending {
+            background: rgba(123, 168, 135, 0.15);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(212, 165, 90, 0.15);
+            color: var(--warning);
+        }
+
+        .status-declined {
+            background: rgba(201, 123, 123, 0.15);
+            color: var(--danger);
+        }
+
+        /* Event Pills */
+        .event-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .event-pill {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--blush);
+            color: var(--text-soft);
+            border-radius: 2px;
+        }
+
+        .event-pill.welcome { background: #E8E4F0; color: #7B6B8A; }
+        .event-pill.ceremony { background: #F5E6E8; color: #B08A8A; }
+        .event-pill.reception { background: #E8F0E8; color: #6B8A6B; }
+        .event-pill.brunch { background: #F0EDE4; color: #8A856B; }
+
+        /* Dietary Tags */
+        .dietary-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .dietary-tag {
+            padding: 0.2rem 0.5rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: rgba(201, 169, 89, 0.15);
+            color: var(--gold-accent);
+            border-radius: 2px;
+        }
+
+        /* Meal Choice */
+        .meal-choice {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+        }
+
+        /* Actions */
+        .action-btn {
+            padding: 0.4rem 0.6rem;
+            background: none;
+            border: 1px solid var(--blush-deep);
+            color: var(--text-soft);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 0.3rem;
+        }
+
+        .action-btn:hover {
+            border-color: var(--rose);
+            color: var(--rose);
+        }
+
+        .action-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Dietary Summary */
+        .dietary-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .dietary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--warm-white);
+            border-left: 3px solid var(--gold-accent);
+        }
+
+        .dietary-item-label {
+            font-size: 0.85rem;
+        }
+
+        .dietary-item-count {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--gold-accent);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(61, 61, 61, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--cream);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--blush);
+        }
+
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-soft);
+            cursor: pointer;
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--rose);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--blush-deep);
+            background: var(--warm-white);
+            font-family: 'Jost', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--rose);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--rose);
+        }
+
+        .checkbox-item label {
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--blush);
+        }
+
+        /* Allergy Input */
+        .allergy-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .allergy-input input {
+            flex: 1;
+        }
+
+        .allergy-input button {
+            padding: 0.75rem 1rem;
+            background: var(--blush);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .allergy-input button:hover {
+            background: var(--blush-deep);
+        }
+
+        .allergy-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .allergy-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            background: rgba(201, 169, 89, 0.15);
+            font-size: 0.8rem;
+        }
+
+        .allergy-tag button {
+            background: none;
+            border: none;
+            color: var(--text-soft);
+            cursor: pointer;
+            padding: 0;
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .allergy-tag button:hover {
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 220px;
+            }
+            .main-content {
+                margin-left: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 101;
+            padding: 0.75rem;
+            background: var(--cream);
+            border: 1px solid var(--blush);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* Notes */
+        .notes-text {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            font-style: italic;
+            max-width: 200px;
+        }
+
+        /* View toggle */
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--blush-deep);
+        }
+
+        .view-toggle button {
+            padding: 0.5rem 1rem;
+            background: var(--warm-white);
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .view-toggle button.active {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .view-toggle button:not(:last-child) {
+            border-right: 1px solid var(--blush-deep);
+        }
+
+        /* Hidden sections */
+        .section-hidden {
+            display: none;
+        }
+
+        .section-visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">Maya <span>&</span> Ahmad</div>
+            <div class="sidebar-date">27 June 2026</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item active" onclick="showSection('overview')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Overview
+            </a>
+            <a class="nav-item" onclick="showSection('guests')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Guest List
+            </a>
+            <a class="nav-item" onclick="showSection('events')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Events
+            </a>
+            <a class="nav-item" onclick="showSection('dietary')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                    <line x1="6" y1="1" x2="6" y2="4"></line>
+                    <line x1="10" y1="1" x2="10" y2="4"></line>
+                    <line x1="14" y1="1" x2="14" y2="4"></line>
+                </svg>
+                Dietary & Meals
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="export-btn" onclick="exportToCSV()">
+                Export to CSV
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Overview Section -->
+        <div id="section-overview" class="section-visible">
+            <div class="page-header">
+                <h1 class="page-title">RSVP Overview</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="openModal()">+ Add Guest</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Invited</div>
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-subtext" id="stat-households">0 households</div>
+                </div>
+                <div class="stat-card attending">
+                    <div class="stat-label">Attending</div>
+                    <div class="stat-value" id="stat-attending">0</div>
+                    <div class="stat-subtext" id="stat-attending-percent">0% response rate</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-label">Awaiting Response</div>
+                    <div class="stat-value" id="stat-pending">0</div>
+                    <div class="stat-subtext">Send reminders</div>
+                </div>
+                <div class="stat-card declined">
+                    <div class="stat-label">Declined</div>
+                    <div class="stat-value" id="stat-declined">0</div>
+                    <div class="stat-subtext">With regrets</div>
+                </div>
+            </div>
+
+            <div class="event-stats">
+                <div class="event-stat">
+                    <div class="event-stat-title">Welcome Dinner</div>
+                    <div class="event-stat-value" id="event-welcome">0</div>
+                    <div class="event-stat-label">guests attending</div>
+                </div>
+                <div class="event-stat">
+                    <div class="event-stat-title">Ceremony</div>
+                    <div class="event-stat-value" id="event-ceremony">0</div>
+                    <div class="event-stat-label">guests attending</div>
+                </div>
+                <div class="event-stat">
+                    <div class="event-stat-title">Reception</div>
+                    <div class="event-stat-value" id="event-reception">0</div>
+                    <div class="event-stat-label">guests attending</div>
+                </div>
+                <div class="event-stat">
+                    <div class="event-stat-title">Farewell Brunch</div>
+                    <div class="event-stat-value" id="event-brunch">0</div>
+                    <div class="event-stat-label">guests attending</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Recent Responses</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party Size</th>
+                                    <th>Status</th>
+                                    <th>Events</th>
+                                    <th>Response Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-responses">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guest List Section -->
+        <div id="section-guests" class="section-hidden">
+            <div class="page-header">
+                <h1 class="page-title">Guest List</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="openModal()">+ Add Guest</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">All Guests</h2>
+                    <div class="view-toggle">
+                        <button class="active">All</button>
+                        <button>Attending</button>
+                        <button>Pending</button>
+                        <button>Declined</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="search-filter">
+                        <input type="text" class="search-input" placeholder="Search guests..." id="guest-search" oninput="filterGuests()">
+                        <select class="filter-select" id="event-filter" onchange="filterGuests()">
+                            <option value="">All Events</option>
+                            <option value="welcome">Welcome Dinner</option>
+                            <option value="ceremony">Ceremony</option>
+                            <option value="reception">Reception</option>
+                            <option value="brunch">Farewell Brunch</option>
+                        </select>
+                        <select class="filter-select" id="dietary-filter" onchange="filterGuests()">
+                            <option value="">All Dietary</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten-Free</option>
+                            <option value="allergies">Has Allergies</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party</th>
+                                    <th>Status</th>
+                                    <th>Events Attending</th>
+                                    <th>Meal</th>
+                                    <th>Dietary/Allergies</th>
+                                    <th>Notes</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="guest-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Section -->
+        <div id="section-events" class="section-hidden">
+            <div class="page-header">
+                <h1 class="page-title">Events Breakdown</h1>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Welcome Dinner</div>
+                    <div class="stat-value" id="event-welcome-detail">0</div>
+                    <div class="stat-subtext">Friday, 26 June — 7 PM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Ceremony</div>
+                    <div class="stat-value" id="event-ceremony-detail">0</div>
+                    <div class="stat-subtext">Saturday, 27 June — 4 PM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Reception</div>
+                    <div class="stat-value" id="event-reception-detail">0</div>
+                    <div class="stat-subtext">Saturday, 27 June — 7 PM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Farewell Brunch</div>
+                    <div class="stat-value" id="event-brunch-detail">0</div>
+                    <div class="stat-subtext">Sunday, 28 June — 11 AM</div>
+                </div>
+            </div>
+
+            <div class="panel" id="event-welcome-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Welcome Dinner Guests</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party Size</th>
+                                    <th>Dietary Requirements</th>
+                                </tr>
+                            </thead>
+                            <tbody id="welcome-guests"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="event-ceremony-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Ceremony Guests</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party Size</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ceremony-guests"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="event-reception-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Reception Guests</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party Size</th>
+                                    <th>Meal Choice</th>
+                                    <th>Dietary Requirements</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reception-guests"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="event-brunch-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Farewell Brunch Guests</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party Size</th>
+                                    <th>Dietary Requirements</th>
+                                </tr>
+                            </thead>
+                            <tbody id="brunch-guests"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dietary Section -->
+        <div id="section-dietary" class="section-hidden">
+            <div class="page-header">
+                <h1 class="page-title">Dietary & Meal Summary</h1>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Meal Choices (Reception)</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="dietary-summary" id="meal-summary">
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Dietary Requirements</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="dietary-summary" id="dietary-summary">
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Food Allergies</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="dietary-summary" id="allergy-summary">
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Guests with Special Requirements</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Party Size</th>
+                                    <th>Dietary</th>
+                                    <th>Allergies</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dietary-guests"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Guest Modal -->
+    <div class="modal-overlay" id="guest-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Add Guest</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="guest-id">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" id="guest-first-name" placeholder="First name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" id="guest-last-name" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="guest-email" placeholder="email@example.com">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Party Size (including guest)</label>
+                        <input type="number" class="form-input" id="guest-party-size" value="1" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">RSVP Status</label>
+                        <select class="form-input" id="guest-status">
+                            <option value="pending">Pending</option>
+                            <option value="attending">Attending</option>
+                            <option value="declined">Declined</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Events Attending</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="event-welcome-check">
+                            <label for="event-welcome-check">Welcome Dinner</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="event-ceremony-check">
+                            <label for="event-ceremony-check">Ceremony</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="event-reception-check">
+                            <label for="event-reception-check">Reception</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="event-brunch-check">
+                            <label for="event-brunch-check">Farewell Brunch</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Meal Choice (Reception)</label>
+                    <select class="form-input" id="guest-meal">
+                        <option value="">Not selected</option>
+                        <option value="beef">Beef</option>
+                        <option value="fish">Fish</option>
+                        <option value="chicken">Chicken</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Dietary Requirements</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dietary-vegetarian">
+                            <label for="dietary-vegetarian">Vegetarian</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dietary-vegan">
+                            <label for="dietary-vegan">Vegan</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dietary-gluten-free">
+                            <label for="dietary-gluten-free">Gluten-Free</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dietary-halal">
+                            <label for="dietary-halal">Halal</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dietary-kosher">
+                            <label for="dietary-kosher">Kosher</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dietary-dairy-free">
+                            <label for="dietary-dairy-free">Dairy-Free</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Food Allergies</label>
+                    <div class="allergy-input">
+                        <input type="text" class="form-input" id="allergy-input" placeholder="Type allergy and press Add">
+                        <button type="button" onclick="addAllergy()">+ Add</button>
+                    </div>
+                    <div class="allergy-list" id="allergy-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <input type="text" class="form-input" id="guest-notes" placeholder="Any additional notes...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveGuest()">Save Guest</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Guest data store
+        let guests = [];
+        let currentAllergies = [];
+        let editingGuestId = null;
+        let apiConnected = false;
+
+        // API Configuration
+        const API_BASE_URL = '/api';
+
+        // Initialize - Load data from API
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Dashboard initializing...');
+            await loadGuestsFromAPI();
+        });
+
+        // Load guests from API
+        async function loadGuestsFromAPI() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/guests`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch guests');
+                }
+                guests = await response.json();
+                apiConnected = true;
+                console.log(`Loaded ${guests.length} guests from API`);
+
+                // Update all UI components
+                updateAllStats();
+                renderRecentResponses();
+                renderGuestTable();
+                renderEventTables();
+                renderDietarySummary();
+            } catch (error) {
+                console.error('Failed to load guests from API:', error);
+                apiConnected = false;
+                // Use sample data as fallback
+                guests = [
+                    {
+                        id: 1,
+                        firstName: 'Sarah',
+                        lastName: 'Mitchell',
+                        email: 'sarah.mitchell@email.com',
+                        partySize: 2,
+                        status: 'attending',
+                        events: ['welcome', 'ceremony', 'reception', 'brunch'],
+                        meal: 'fish',
+                        dietary: ['gluten-free'],
+                        allergies: ['shellfish'],
+                        notes: 'Plus one is her husband James',
+                        responseDate: '2026-01-15'
+                    }
+                ];
+                updateAllStats();
+                renderRecentResponses();
+                renderGuestTable();
+                renderEventTables();
+                renderDietarySummary();
+                alert('Could not connect to API. Using sample data. Please start the server with: npm start');
+            }
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('[id^="section-"]').forEach(section => {
+                section.classList.remove('section-visible');
+                section.classList.add('section-hidden');
+            });
+            
+            // Show selected section
+            document.getElementById('section-' + sectionName).classList.remove('section-hidden');
+            document.getElementById('section-' + sectionName).classList.add('section-visible');
+            
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Stats calculation
+        function updateAllStats() {
+            const total = guests.reduce((sum, g) => sum + g.partySize, 0);
+            const attending = guests.filter(g => g.status === 'attending').reduce((sum, g) => sum + g.partySize, 0);
+            const pending = guests.filter(g => g.status === 'pending').reduce((sum, g) => sum + g.partySize, 0);
+            const declined = guests.filter(g => g.status === 'declined').reduce((sum, g) => sum + g.partySize, 0);
+            
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-households').textContent = guests.length + ' households';
+            document.getElementById('stat-attending').textContent = attending;
+            document.getElementById('stat-attending-percent').textContent = Math.round((attending / total) * 100) + '% confirmed';
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-declined').textContent = declined;
+
+            // Event stats
+            const welcomeCount = guests.filter(g => g.events.includes('welcome')).reduce((sum, g) => sum + g.partySize, 0);
+            const ceremonyCount = guests.filter(g => g.events.includes('ceremony')).reduce((sum, g) => sum + g.partySize, 0);
+            const receptionCount = guests.filter(g => g.events.includes('reception')).reduce((sum, g) => sum + g.partySize, 0);
+            const brunchCount = guests.filter(g => g.events.includes('brunch')).reduce((sum, g) => sum + g.partySize, 0);
+
+            document.getElementById('event-welcome').textContent = welcomeCount;
+            document.getElementById('event-ceremony').textContent = ceremonyCount;
+            document.getElementById('event-reception').textContent = receptionCount;
+            document.getElementById('event-brunch').textContent = brunchCount;
+
+            // Detail stats
+            if (document.getElementById('event-welcome-detail')) {
+                document.getElementById('event-welcome-detail').textContent = welcomeCount;
+                document.getElementById('event-ceremony-detail').textContent = ceremonyCount;
+                document.getElementById('event-reception-detail').textContent = receptionCount;
+                document.getElementById('event-brunch-detail').textContent = brunchCount;
+            }
+        }
+
+        // Render functions
+        function renderRecentResponses() {
+            const tbody = document.getElementById('recent-responses');
+            const recent = guests
+                .filter(g => g.responseDate)
+                .sort((a, b) => new Date(b.responseDate) - new Date(a.responseDate))
+                .slice(0, 5);
+            
+            tbody.innerHTML = recent.map(g => `
+                <tr>
+                    <td>
+                        <div class="guest-name">${g.firstName} ${g.lastName}</div>
+                        <div class="guest-email">${g.email}</div>
+                    </td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                    <td><span class="status-badge status-${g.status}">${g.status}</span></td>
+                    <td>
+                        <div class="event-pills">
+                            ${g.events.map(e => `<span class="event-pill ${e}">${formatEventName(e)}</span>`).join('')}
+                        </div>
+                    </td>
+                    <td>${formatDate(g.responseDate)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderGuestTable() {
+            const tbody = document.getElementById('guest-table-body');
+            tbody.innerHTML = guests.map(g => `
+                <tr data-id="${g.id}">
+                    <td>
+                        <div class="guest-name">${g.firstName} ${g.lastName}</div>
+                        <div class="guest-email">${g.email}</div>
+                    </td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                    <td><span class="status-badge status-${g.status}">${g.status}</span></td>
+                    <td>
+                        <div class="event-pills">
+                            ${g.events.length > 0 ? g.events.map(e => `<span class="event-pill ${e}">${formatEventName(e)}</span>`).join('') : '<span style="color: var(--text-light); font-size: 0.8rem;">—</span>'}
+                        </div>
+                    </td>
+                    <td><span class="meal-choice">${g.meal ? capitalize(g.meal) : '—'}</span></td>
+                    <td>
+                        <div class="dietary-tags">
+                            ${g.dietary.map(d => `<span class="dietary-tag">${d}</span>`).join('')}
+                            ${g.allergies.map(a => `<span class="dietary-tag" style="background: rgba(201, 123, 123, 0.15); color: var(--danger);">${a}</span>`).join('')}
+                            ${g.dietary.length === 0 && g.allergies.length === 0 ? '<span style="color: var(--text-light); font-size: 0.8rem;">—</span>' : ''}
+                        </div>
+                    </td>
+                    <td><span class="notes-text">${g.notes || '—'}</span></td>
+                    <td>
+                        <button class="action-btn" onclick="editGuest(${g.id})" title="Edit">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                        <button class="action-btn" onclick="deleteGuest(${g.id})" title="Delete">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderEventTables() {
+            // Welcome dinner
+            const welcomeGuests = guests.filter(g => g.events.includes('welcome'));
+            document.getElementById('welcome-guests').innerHTML = welcomeGuests.map(g => `
+                <tr>
+                    <td><div class="guest-name">${g.firstName} ${g.lastName}</div></td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                    <td>
+                        <div class="dietary-tags">
+                            ${[...g.dietary, ...g.allergies].map(d => `<span class="dietary-tag">${d}</span>`).join('') || '—'}
+                        </div>
+                    </td>
+                </tr>
+            `).join('') || '<tr><td colspan="3" style="text-align: center; color: var(--text-light);">No guests yet</td></tr>';
+
+            // Ceremony
+            const ceremonyGuests = guests.filter(g => g.events.includes('ceremony'));
+            document.getElementById('ceremony-guests').innerHTML = ceremonyGuests.map(g => `
+                <tr>
+                    <td><div class="guest-name">${g.firstName} ${g.lastName}</div></td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="2" style="text-align: center; color: var(--text-light);">No guests yet</td></tr>';
+
+            // Reception
+            const receptionGuests = guests.filter(g => g.events.includes('reception'));
+            document.getElementById('reception-guests').innerHTML = receptionGuests.map(g => `
+                <tr>
+                    <td><div class="guest-name">${g.firstName} ${g.lastName}</div></td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                    <td><span class="meal-choice">${g.meal ? capitalize(g.meal) : '—'}</span></td>
+                    <td>
+                        <div class="dietary-tags">
+                            ${[...g.dietary, ...g.allergies].map(d => `<span class="dietary-tag">${d}</span>`).join('') || '—'}
+                        </div>
+                    </td>
+                </tr>
+            `).join('') || '<tr><td colspan="4" style="text-align: center; color: var(--text-light);">No guests yet</td></tr>';
+
+            // Brunch
+            const brunchGuests = guests.filter(g => g.events.includes('brunch'));
+            document.getElementById('brunch-guests').innerHTML = brunchGuests.map(g => `
+                <tr>
+                    <td><div class="guest-name">${g.firstName} ${g.lastName}</div></td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                    <td>
+                        <div class="dietary-tags">
+                            ${[...g.dietary, ...g.allergies].map(d => `<span class="dietary-tag">${d}</span>`).join('') || '—'}
+                        </div>
+                    </td>
+                </tr>
+            `).join('') || '<tr><td colspan="3" style="text-align: center; color: var(--text-light);">No guests yet</td></tr>';
+        }
+
+        function renderDietarySummary() {
+            // Meal summary
+            const meals = {};
+            guests.filter(g => g.meal && g.status === 'attending').forEach(g => {
+                meals[g.meal] = (meals[g.meal] || 0) + g.partySize;
+            });
+            document.getElementById('meal-summary').innerHTML = Object.entries(meals).map(([meal, count]) => `
+                <div class="dietary-item">
+                    <span class="dietary-item-label">${capitalize(meal)}</span>
+                    <span class="dietary-item-count">${count}</span>
+                </div>
+            `).join('') || '<p style="color: var(--text-light);">No meal choices recorded yet</p>';
+
+            // Dietary summary
+            const dietary = {};
+            guests.filter(g => g.status === 'attending').forEach(g => {
+                g.dietary.forEach(d => {
+                    dietary[d] = (dietary[d] || 0) + g.partySize;
+                });
+            });
+            document.getElementById('dietary-summary').innerHTML = Object.entries(dietary).map(([diet, count]) => `
+                <div class="dietary-item">
+                    <span class="dietary-item-label">${capitalize(diet)}</span>
+                    <span class="dietary-item-count">${count}</span>
+                </div>
+            `).join('') || '<p style="color: var(--text-light);">No dietary requirements recorded</p>';
+
+            // Allergy summary
+            const allergies = {};
+            guests.filter(g => g.status === 'attending').forEach(g => {
+                g.allergies.forEach(a => {
+                    allergies[a] = (allergies[a] || 0) + g.partySize;
+                });
+            });
+            document.getElementById('allergy-summary').innerHTML = Object.entries(allergies).map(([allergy, count]) => `
+                <div class="dietary-item" style="border-left-color: var(--danger);">
+                    <span class="dietary-item-label">${capitalize(allergy)}</span>
+                    <span class="dietary-item-count" style="color: var(--danger);">${count}</span>
+                </div>
+            `).join('') || '<p style="color: var(--text-light);">No food allergies recorded</p>';
+
+            // Guests with special requirements
+            const specialGuests = guests.filter(g => g.status === 'attending' && (g.dietary.length > 0 || g.allergies.length > 0));
+            document.getElementById('dietary-guests').innerHTML = specialGuests.map(g => `
+                <tr>
+                    <td><div class="guest-name">${g.firstName} ${g.lastName}</div></td>
+                    <td><span class="guest-count">${g.partySize}</span></td>
+                    <td>
+                        <div class="dietary-tags">
+                            ${g.dietary.map(d => `<span class="dietary-tag">${d}</span>`).join('') || '—'}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dietary-tags">
+                            ${g.allergies.map(a => `<span class="dietary-tag" style="background: rgba(201, 123, 123, 0.15); color: var(--danger);">${a}</span>`).join('') || '—'}
+                        </div>
+                    </td>
+                    <td><span class="notes-text">${g.notes || '—'}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="5" style="text-align: center; color: var(--text-light);">No special requirements</td></tr>';
+        }
+
+        // Modal functions
+        function openModal() {
+            editingGuestId = null;
+            currentAllergies = [];
+            document.getElementById('modal-title').textContent = 'Add Guest';
+            document.getElementById('guest-modal').classList.add('active');
+            clearForm();
+        }
+
+        function closeModal() {
+            document.getElementById('guest-modal').classList.remove('active');
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('guest-id').value = '';
+            document.getElementById('guest-first-name').value = '';
+            document.getElementById('guest-last-name').value = '';
+            document.getElementById('guest-email').value = '';
+            document.getElementById('guest-party-size').value = '1';
+            document.getElementById('guest-status').value = 'pending';
+            document.getElementById('guest-meal').value = '';
+            document.getElementById('guest-notes').value = '';
+            
+            // Clear checkboxes
+            ['event-welcome-check', 'event-ceremony-check', 'event-reception-check', 'event-brunch-check',
+             'dietary-vegetarian', 'dietary-vegan', 'dietary-gluten-free', 'dietary-halal', 'dietary-kosher', 'dietary-dairy-free']
+                .forEach(id => document.getElementById(id).checked = false);
+            
+            currentAllergies = [];
+            renderAllergyList();
+        }
+
+        function editGuest(id) {
+            const guest = guests.find(g => g.id === id);
+            if (!guest) return;
+
+            editingGuestId = id;
+            document.getElementById('modal-title').textContent = 'Edit Guest';
+            document.getElementById('guest-id').value = guest.id;
+            document.getElementById('guest-first-name').value = guest.firstName;
+            document.getElementById('guest-last-name').value = guest.lastName;
+            document.getElementById('guest-email').value = guest.email;
+            document.getElementById('guest-party-size').value = guest.partySize;
+            document.getElementById('guest-status').value = guest.status;
+            document.getElementById('guest-meal').value = guest.meal;
+            document.getElementById('guest-notes').value = guest.notes;
+
+            // Set event checkboxes
+            document.getElementById('event-welcome-check').checked = guest.events.includes('welcome');
+            document.getElementById('event-ceremony-check').checked = guest.events.includes('ceremony');
+            document.getElementById('event-reception-check').checked = guest.events.includes('reception');
+            document.getElementById('event-brunch-check').checked = guest.events.includes('brunch');
+
+            // Set dietary checkboxes
+            document.getElementById('dietary-vegetarian').checked = guest.dietary.includes('vegetarian');
+            document.getElementById('dietary-vegan').checked = guest.dietary.includes('vegan');
+            document.getElementById('dietary-gluten-free').checked = guest.dietary.includes('gluten-free');
+            document.getElementById('dietary-halal').checked = guest.dietary.includes('halal');
+            document.getElementById('dietary-kosher').checked = guest.dietary.includes('kosher');
+            document.getElementById('dietary-dairy-free').checked = guest.dietary.includes('dairy-free');
+
+            currentAllergies = [...guest.allergies];
+            renderAllergyList();
+
+            document.getElementById('guest-modal').classList.add('active');
+        }
+
+        async function saveGuest() {
+            const firstName = document.getElementById('guest-first-name').value.trim();
+            const lastName = document.getElementById('guest-last-name').value.trim();
+            const email = document.getElementById('guest-email').value.trim();
+            const partySize = parseInt(document.getElementById('guest-party-size').value) || 1;
+            const status = document.getElementById('guest-status').value;
+            const meal = document.getElementById('guest-meal').value;
+            const notes = document.getElementById('guest-notes').value.trim();
+
+            if (!firstName || !lastName || !email) {
+                alert('Please enter first name, last name, and email');
+                return;
+            }
+
+            const events = [];
+            if (document.getElementById('event-welcome-check').checked) events.push('welcome');
+            if (document.getElementById('event-ceremony-check').checked) events.push('ceremony');
+            if (document.getElementById('event-reception-check').checked) events.push('reception');
+            if (document.getElementById('event-brunch-check').checked) events.push('brunch');
+
+            const dietary = [];
+            if (document.getElementById('dietary-vegetarian').checked) dietary.push('vegetarian');
+            if (document.getElementById('dietary-vegan').checked) dietary.push('vegan');
+            if (document.getElementById('dietary-gluten-free').checked) dietary.push('gluten-free');
+            if (document.getElementById('dietary-halal').checked) dietary.push('halal');
+            if (document.getElementById('dietary-kosher').checked) dietary.push('kosher');
+            if (document.getElementById('dietary-dairy-free').checked) dietary.push('dairy-free');
+
+            const guestData = {
+                firstName,
+                lastName,
+                email,
+                partySize,
+                status,
+                events,
+                meal,
+                dietary,
+                allergies: [...currentAllergies],
+                notes
+            };
+
+            try {
+                if (apiConnected) {
+                    const method = editingGuestId ? 'PUT' : 'POST';
+                    const url = editingGuestId
+                        ? `${API_BASE_URL}/guests/${editingGuestId}`
+                        : `${API_BASE_URL}/guests`;
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(guestData)
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.error || 'Failed to save guest');
+                    }
+
+                    console.log(`Guest ${method === 'POST' ? 'created' : 'updated'} successfully`);
+
+                    // Reload data from API
+                    await loadGuestsFromAPI();
+                } else {
+                    // Fallback to local storage
+                    if (editingGuestId) {
+                        const index = guests.findIndex(g => g.id === editingGuestId);
+                        if (index !== -1) {
+                            guests[index] = { ...guests[index], ...guestData };
+                        }
+                    } else {
+                        guestData.id = Math.max(...guests.map(g => g.id), 0) + 1;
+                        guests.push(guestData);
+                    }
+                    updateAllStats();
+                    renderRecentResponses();
+                    renderGuestTable();
+                    renderEventTables();
+                    renderDietarySummary();
+                }
+
+                closeModal();
+            } catch (error) {
+                console.error('Error saving guest:', error);
+                alert(`Error saving guest: ${error.message}`);
+            }
+        }
+
+        async function deleteGuest(id) {
+            if (!confirm('Are you sure you want to remove this guest?')) {
+                return;
+            }
+
+            try {
+                if (apiConnected) {
+                    const response = await fetch(`${API_BASE_URL}/guests/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to delete guest');
+                    }
+
+                    console.log('Guest deleted successfully');
+
+                    // Reload data from API
+                    await loadGuestsFromAPI();
+                } else {
+                    // Fallback to local storage
+                    guests = guests.filter(g => g.id !== id);
+                    updateAllStats();
+                    renderRecentResponses();
+                    renderGuestTable();
+                    renderEventTables();
+                    renderDietarySummary();
+                }
+            } catch (error) {
+                console.error('Error deleting guest:', error);
+                alert(`Error deleting guest: ${error.message}`);
+            }
+        }
+
+        // Allergy management
+        function addAllergy() {
+            const input = document.getElementById('allergy-input');
+            const allergy = input.value.trim().toLowerCase();
+            if (allergy && !currentAllergies.includes(allergy)) {
+                currentAllergies.push(allergy);
+                renderAllergyList();
+            }
+            input.value = '';
+        }
+
+        function removeAllergy(allergy) {
+            currentAllergies = currentAllergies.filter(a => a !== allergy);
+            renderAllergyList();
+        }
+
+        function renderAllergyList() {
+            document.getElementById('allergy-list').innerHTML = currentAllergies.map(a => `
+                <span class="allergy-tag">
+                    ${a}
+                    <button type="button" onclick="removeAllergy('${a}')">&times;</button>
+                </span>
+            `).join('');
+        }
+
+        // Filter guests
+        function filterGuests() {
+            const search = document.getElementById('guest-search').value.toLowerCase();
+            const eventFilter = document.getElementById('event-filter').value;
+            const dietaryFilter = document.getElementById('dietary-filter').value;
+
+            const rows = document.querySelectorAll('#guest-table-body tr');
+            rows.forEach(row => {
+                const id = parseInt(row.dataset.id);
+                const guest = guests.find(g => g.id === id);
+                if (!guest) return;
+
+                let visible = true;
+
+                // Search filter
+                if (search) {
+                    const fullName = (guest.firstName + ' ' + guest.lastName).toLowerCase();
+                    const email = guest.email.toLowerCase();
+                    visible = fullName.includes(search) || email.includes(search);
+                }
+
+                // Event filter
+                if (visible && eventFilter) {
+                    visible = guest.events.includes(eventFilter);
+                }
+
+                // Dietary filter
+                if (visible && dietaryFilter) {
+                    if (dietaryFilter === 'allergies') {
+                        visible = guest.allergies.length > 0;
+                    } else {
+                        visible = guest.dietary.includes(dietaryFilter);
+                    }
+                }
+
+                row.style.display = visible ? '' : 'none';
+            });
+        }
+
+        // Export to CSV
+        async function exportToCSV() {
+            try {
+                if (apiConnected) {
+                    // Use API endpoint for export
+                    const response = await fetch(`${API_BASE_URL}/export/csv`);
+                    if (!response.ok) {
+                        throw new Error('Failed to export CSV from API');
+                    }
+
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'maya-ahmad-wedding-guests.csv';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                } else {
+                    // Fallback to local CSV generation
+                    const headers = ['First Name', 'Last Name', 'Email', 'Party Size', 'Status', 'Welcome Dinner', 'Ceremony', 'Reception', 'Brunch', 'Meal Choice', 'Dietary', 'Allergies', 'Notes', 'Response Date'];
+                    const rows = guests.map(g => [
+                        g.firstName,
+                        g.lastName,
+                        g.email,
+                        g.partySize,
+                        g.status,
+                        g.events.includes('welcome') ? 'Yes' : 'No',
+                        g.events.includes('ceremony') ? 'Yes' : 'No',
+                        g.events.includes('reception') ? 'Yes' : 'No',
+                        g.events.includes('brunch') ? 'Yes' : 'No',
+                        g.meal || '',
+                        g.dietary.join('; '),
+                        g.allergies.join('; '),
+                        g.notes,
+                        g.responseDate || ''
+                    ]);
+
+                    const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'maya-ahmad-wedding-guests.csv';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                }
+            } catch (error) {
+                console.error('Error exporting CSV:', error);
+                alert('Failed to export CSV. Please try again.');
+            }
+        }
+
+        // Helper functions
+        function formatEventName(event) {
+            const names = { welcome: 'Welcome', ceremony: 'Ceremony', reception: 'Reception', brunch: 'Brunch' };
+            return names[event] || event;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
+        }
+
+        // Enter key for allergy input
+        document.getElementById('allergy-input')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addAllergy();
+            }
+        });
+    </script>
+    <script src="dashboard-api.js"></script>
+</body>
+</html>

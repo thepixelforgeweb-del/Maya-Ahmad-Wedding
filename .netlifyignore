@@ -1,0 +1,15 @@
+node_modules
+.env
+.env.local
+.git
+.gitignore
+server-turso.js
+create-tables.js
+verify-database.js
+debug-turso.js
+test-api.js
+test-get-api.js
+package-lock.json
+*.md
+.DS_Store
+

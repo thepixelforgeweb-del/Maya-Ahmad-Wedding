@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya & Ahmad — 27 June 2026</title>
+</head>
+<body style="margin: 0; padding: 0;">
+    <div id="loading" style="text-align: center; padding: 50px; font-family: 'Jost', sans-serif; color: #3D3D3D;">
+        Loading...
+    </div>
+
+    <script>
+        // Simple one-time device detection and redirect
+        (function() {
+            // Check if we've already redirected (prevent loops)
+            if (window.location.pathname.includes('maya-ahmad-wedding-mobile.html') || 
+                window.location.pathname.includes('maya-ahmad-wedding-desktop.html')) {
+                return; // Already on the target page
+            }
+
+            // Detect if device is mobile
+            function isMobileDevice() {
+                if (window.innerWidth <= 768) return true;
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+                return mobileRegex.test(userAgent.toLowerCase());
+            }
+
+            // Redirect to appropriate file
+            const isMobile = isMobileDevice();
+            const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
+            
+            // Use replace to avoid adding to history
+            window.location.replace(fileName);
+        })();
+    </script>
+</body>
+</html>
