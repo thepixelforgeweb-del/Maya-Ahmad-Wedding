@@ -50,6 +50,15 @@
                     const fetchedScripts = doc.querySelectorAll('script');
                     fetchedScripts.forEach(oldScript => {
                         try {
+
+            // Fallback: if loading div is still present after a short delay, navigate directly
+            setTimeout(function() {
+                const loadingEl = document.getElementById('loading');
+                if (loadingEl) {
+                    // Try a hard navigation to the file (works better on some mobile browsers)
+                    window.location.href = fileName;
+                }
+            }, 1500);
                             const newScript = document.createElement('script');
                             // copy attributes
                             for (let i = 0; i < oldScript.attributes.length; i++) {
@@ -71,6 +80,12 @@
                             console.warn('Error injecting script:', e);
                         }
                     });
+
+                    // Mark that we've injected the fetched page so resize won't force reload
+                    try {
+                        window.__injected = fileName;
+                        if (document.body) document.body.setAttribute('data-injected', fileName);
+                    } catch (e) { /* ignore */ }
                 })
                 .catch(error => {
                     console.error('Error loading page:', error);
@@ -85,21 +100,23 @@
             loadCorrectVersion();
         }
 
-        // Also handle window resize to switch between versions
+        // Also handle window resize to switch between versions (named handler so we can avoid loops)
         let resizeTimeout;
-        window.addEventListener('resize', function() {
+        function handleResize() {
+            // If we've already injected the fetched version, do not reload (prevents mobile loop)
+            if (window.__injected) return;
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function() {
                 // Only reload if crossing the mobile threshold
                 const isMobile = isMobileDevice();
                 const currentFile = window.location.pathname.includes('mobile') ? 'mobile' : 'desktop';
                 const shouldBeMobile = isMobile ? 'mobile' : 'desktop';
-                
                 if (currentFile !== shouldBeMobile) {
                     location.reload();
                 }
             }, 500);
-        });
+        }
+        window.addEventListener('resize', handleResize);
     </script>
 </body>
 </html>
