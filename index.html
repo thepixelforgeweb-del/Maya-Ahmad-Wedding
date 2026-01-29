@@ -25,8 +25,10 @@
             return mobileRegex.test(userAgent.toLowerCase());
         }
 
-        // Load appropriate version
+        // Load appropriate version (run once)
         function loadCorrectVersion() {
+            if (window.__loadedOnce) return;
+            window.__loadedOnce = true;
             const isMobile = isMobileDevice();
             const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
 
@@ -93,6 +95,11 @@
                     window.location.href = fileName;
                 }
             }, 1500);
+
+            // Remove DOMContentLoaded listener to ensure we don't attempt to load again
+            try {
+                document.removeEventListener('DOMContentLoaded', loadCorrectVersion);
+            } catch (e) { /* ignore */ }
         }
 
         // Load on page ready
