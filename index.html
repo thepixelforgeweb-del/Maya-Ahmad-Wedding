@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya & Ahmad — 27 June 2026</title>
+</head>
+<body style="margin: 0; padding: 0;">
+    <div id="loading" style="text-align: center; padding: 50px; font-family: 'Jost', sans-serif; color: #3D3D3D;">
+        Loading...
+    </div>
+
+    <script>
+        // Detect if device is mobile based on screen width
+        function isMobileDevice() {
+            // Check viewport width
+            if (window.innerWidth <= 768) {
+                return true;
+            }
+            
+            // Also check user agent as a fallback
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+            
+            return mobileRegex.test(userAgent.toLowerCase());
+        }
+
+        // Load appropriate version
+        function loadCorrectVersion() {
+            const isMobile = isMobileDevice();
+            const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
+
+            // Fetch and replace content, then explicitly execute scripts from the fetched document
+            fetch(fileName)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    // Replace head and body separately to preserve document structure
+                    document.head.innerHTML = doc.head.innerHTML;
+                    document.body.innerHTML = doc.body.innerHTML;
+
+                    // Execute any scripts found in the fetched document
+                    const fetchedScripts = doc.querySelectorAll('script');
+                    fetchedScripts.forEach(oldScript => {
+                        try {
+                            const newScript = document.createElement('script');
+                            // copy attributes
+                            for (let i = 0; i < oldScript.attributes.length; i++) {
+                                const attr = oldScript.attributes[i];
+                                newScript.setAttribute(attr.name, attr.value);
+                            }
+
+                            if (oldScript.src) {
+                                // External script: set src and append (will load and execute)
+                                newScript.src = oldScript.src;
+                                newScript.async = false;
+                                document.body.appendChild(newScript);
+                            } else {
+                                // Inline script: copy textContent and append so it executes
+                                newScript.textContent = oldScript.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                        } catch (e) {
+                            console.warn('Error injecting script:', e);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading page:', error);
+                    document.body.innerHTML = '<p style="padding: 20px; font-family: sans-serif; color: #C9A5A5;">Error loading page. Please refresh.</p>';
+                });
+        }
+
+        // Load on page ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadCorrectVersion);
+        } else {
+            loadCorrectVersion();
+        }
+
+        // Also handle window resize to switch between versions
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                // Only reload if crossing the mobile threshold
+                const isMobile = isMobileDevice();
+                const currentFile = window.location.pathname.includes('mobile') ? 'mobile' : 'desktop';
+                const shouldBeMobile = isMobile ? 'mobile' : 'desktop';
+                
+                if (currentFile !== shouldBeMobile) {
+                    location.reload();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
