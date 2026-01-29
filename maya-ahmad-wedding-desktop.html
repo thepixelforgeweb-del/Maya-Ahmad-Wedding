@@ -2082,13 +2082,13 @@
             });
 	        })();
 
-	        // Set hero background image
-        document.addEventListener('DOMContentLoaded', function() {
+	        // Set hero background image (run immediately when script loads)
+	        (function() {
 	            const heroBg = document.getElementById('heroBg');
 	            if (heroBg) {
 	                heroBg.style.backgroundImage = 'url(/hero-bg.jpg)';
 	            }
-	        });
+	        })();
 	        /*
 HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
 MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wgARCAO/BQADASIA
