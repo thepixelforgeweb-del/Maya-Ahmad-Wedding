@@ -39,3 +39,10 @@
   to = "/dashboard.html"
   status = 200
 
+# Device detection - serve appropriate version without visible redirect
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+  force = false
+

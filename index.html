@@ -4,23 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maya & Ahmad — 27 June 2026</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        body { font-family: 'Jost', sans-serif; }
+    </style>
 </head>
-<body style="margin: 0; padding: 0;">
+<body>
+    <div id="root"></div>
+
     <script>
-        // Detect if device is mobile
-        function isMobileDevice() {
-            if (window.innerWidth <= 768) return true;
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-            return mobileRegex.test(userAgent.toLowerCase());
-        }
+        (async function() {
+            // Detect if device is mobile
+            function isMobileDevice() {
+                if (window.innerWidth <= 768) return true;
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+                return mobileRegex.test(userAgent.toLowerCase());
+            }
 
-        // Silently redirect to appropriate version
-        const isMobile = isMobileDevice();
-        const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
+            // Load appropriate version
+            const isMobile = isMobileDevice();
+            const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
 
-        // Use replace to avoid adding to browser history
-        window.location.replace(fileName);
+            try {
+                const response = await fetch(fileName);
+                const html = await response.text();
+
+                // Parse the HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Copy head styles and meta tags
+                const headElements = doc.querySelectorAll('head > style, head > link[rel="stylesheet"], head > meta');
+                headElements.forEach(el => {
+                    if (el.tagName === 'STYLE' || el.tagName === 'LINK' || el.tagName === 'META') {
+                        document.head.appendChild(el.cloneNode(true));
+                    }
+                });
+
+                // Copy body content
+                const bodyContent = doc.body.innerHTML;
+                document.getElementById('root').innerHTML = bodyContent;
+
+                // Execute scripts from the fetched document
+                const scripts = doc.querySelectorAll('script');
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    if (script.src) {
+                        newScript.src = script.src;
+                        newScript.async = true;
+                    } else {
+                        newScript.textContent = script.textContent;
+                    }
+                    document.body.appendChild(newScript);
+                });
+
+            } catch (error) {
+                console.error('Error loading page:', error);
+                document.getElementById('root').innerHTML = '<p style="text-align: center; padding: 50px; color: #999;">Error loading page. Please refresh.</p>';
+            }
+        })();
     </script>
 </body>
 </html>
