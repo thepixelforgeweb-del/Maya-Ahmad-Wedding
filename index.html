@@ -31,6 +31,7 @@
             const fileName = isMobile ? 'maya-ahmad-wedding-mobile.html' : 'maya-ahmad-wedding-desktop.html';
 
             // Fetch and replace content, then explicitly execute scripts from the fetched document
+            let injected = false;
             fetch(fileName)
                 .then(response => {
                     if (!response.ok) {
@@ -46,19 +47,17 @@
                     document.head.innerHTML = doc.head.innerHTML;
                     document.body.innerHTML = doc.body.innerHTML;
 
+                    // Mark that we've injected the fetched page so resize won't force reload
+                    try {
+                        injected = true;
+                        window.__injected = fileName;
+                        if (document.body) document.body.setAttribute('data-injected', fileName);
+                    } catch (e) { /* ignore */ }
+
                     // Execute any scripts found in the fetched document
                     const fetchedScripts = doc.querySelectorAll('script');
                     fetchedScripts.forEach(oldScript => {
                         try {
-
-            // Fallback: if loading div is still present after a short delay, navigate directly
-            setTimeout(function() {
-                const loadingEl = document.getElementById('loading');
-                if (loadingEl) {
-                    // Try a hard navigation to the file (works better on some mobile browsers)
-                    window.location.href = fileName;
-                }
-            }, 1500);
                             const newScript = document.createElement('script');
                             // copy attributes
                             for (let i = 0; i < oldScript.attributes.length; i++) {
@@ -80,17 +79,20 @@
                             console.warn('Error injecting script:', e);
                         }
                     });
-
-                    // Mark that we've injected the fetched page so resize won't force reload
-                    try {
-                        window.__injected = fileName;
-                        if (document.body) document.body.setAttribute('data-injected', fileName);
-                    } catch (e) { /* ignore */ }
                 })
                 .catch(error => {
                     console.error('Error loading page:', error);
-                    document.body.innerHTML = '<p style="padding: 20px; font-family: sans-serif; color: #C9A5A5;">Error loading page. Please refresh.</p>';
+                    document.body.innerHTML = '<p style="padding: 20px; font-family: sans-serif; color: #C9A5A5;'>Error loading page. Please refresh.</p>';
                 });
+
+            // Fallback: if loading div is still present after a short delay, navigate directly
+            setTimeout(function() {
+                const loadingEl = document.getElementById('loading');
+                if (!injected && loadingEl) {
+                    // Try a hard navigation to the file (works better on some mobile browsers)
+                    window.location.href = fileName;
+                }
+            }, 1500);
         }
 
         // Load on page ready
