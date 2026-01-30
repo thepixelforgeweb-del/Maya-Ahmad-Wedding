@@ -77,8 +77,10 @@
 	        .hero-bg {
 	            position: absolute;
 	            top: 0; left: 0; right: 0; bottom: 0;
-	            background-size: cover;
-	            background-position: center;
+	            /* On mobile, show the full image without cropping the sides */
+	            background-size: contain;
+	            background-position: top center;
+	            background-repeat: no-repeat;
 	            opacity: 0.35;
 	        }
 
@@ -330,7 +332,7 @@
             display: block;
             width: 100%;
             max-width: 280px;
-            margin: 10px auto;
+	            margin: 20px auto;
             padding: 14px 20px;
             font-size: 12px;
             letter-spacing: 0.15em;
