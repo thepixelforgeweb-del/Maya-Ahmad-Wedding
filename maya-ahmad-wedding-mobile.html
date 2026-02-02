@@ -12,11 +12,26 @@
             --blush: #F5E6E8;
             --blush-deep: #E8D4D8;
             --rose: #D4A5A5;
+            --rose-muted: #C9B1B1;
             --cream: #FFFAF8;
             --warm-white: #FDF9F7;
             --text-primary: #3D3D3D;
             --text-soft: #6B6B6B;
+            --text-light: #8A8A8A;
+            --gold-accent: #C9A959;
             --success: #7BA887;
+            --warning: #D4A55A;
+            --danger: #C97B7B;
+
+            /* Category Colors */
+            --welcome-bg: #E8E4F0;
+            --welcome-text: #7B6B8A;
+            --ceremony-bg: #F5E6E8;
+            --ceremony-text: #B08A8A;
+            --reception-bg: #E8F0E8;
+            --reception-text: #6B8A6B;
+            --brunch-bg: #F0EDE4;
+            --brunch-text: #8A856B;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -580,6 +595,28 @@
             border-color: var(--rose);
             color: white;
         }
+
+        /* Category-based event button colors */
+        .event-select[data-category="bohemian"] .event-btn.active {
+            background: var(--welcome-text);
+            border-color: var(--welcome-text);
+        }
+
+        .event-select[data-category="wedding"] .event-btn.active {
+            background: var(--ceremony-text);
+            border-color: var(--ceremony-text);
+        }
+
+        .event-select[data-category="pool"] .event-btn.active {
+            background: var(--reception-text);
+            border-color: var(--reception-text);
+        }
+
+        /* Event pill colors for dashboard */
+        .event-pill.welcome { background: var(--welcome-bg); color: var(--welcome-text); }
+        .event-pill.ceremony { background: var(--ceremony-bg); color: var(--ceremony-text); }
+        .event-pill.reception { background: var(--reception-bg); color: var(--reception-text); }
+        .event-pill.brunch { background: var(--brunch-bg); color: var(--brunch-text); }
 
         /* Dietary */
         .dietary-grid {
@@ -1257,7 +1294,7 @@
                 <div class="form-group">
                     <label class="form-label">Which events will you attend?</label>
                     
-                    <div class="event-select">
+                    <div class="event-select" data-category="bohemian">
                         <div class="event-select-header">
                             <div>
                                 <h4>Bohemian Night</h4>
@@ -1270,7 +1307,7 @@
                         </div>
                     </div>
 
-                    <div class="event-select">
+                    <div class="event-select" data-category="wedding">
                         <div class="event-select-header">
                             <div>
                                 <h4>Wedding Ceremony</h4>
@@ -1283,7 +1320,7 @@
                         </div>
                     </div>
 
-                    <div class="event-select">
+                    <div class="event-select" data-category="pool">
                         <div class="event-select-header">
                             <div>
                                 <h4>Pool Chill Day</h4>
