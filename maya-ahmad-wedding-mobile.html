@@ -75,11 +75,7 @@
 	        }
 
 	        .hero-image-section {
-	            position: absolute;
-	            top: 0;
-	            left: 0;
-	            width: 100%;
-	            height: 100%;
+	            display: none;
 	        }
 
 	        .hero-countdown-wrapper {
@@ -866,25 +862,17 @@
     </nav>
 
 	    <section class="hero">
-	        <!-- Image section with text overlay at bottom -->
-	        <div class="hero-image-section">
-	            <div class="hero-bg" id="heroBg"></div>
-	            <div class="hero-overlay"></div>
+	        <div class="hero-bg" id="heroBg"></div>
+	        <div class="hero-overlay"></div>
+	        <div class="hero-content">
+	            <h1 class="names">
+	                Maya
+	                <span class="ampersand">&</span>
+	                Ahmad
+	            </h1>
+	            <p class="wedding-date">27 June 2026</p>
+	            <p class="location">Relais La Due Matote — Bossolasco, Piedmont</p>
 
-	            <!-- Text at bottom of image -->
-	            <div class="hero-content">
-	                <h1 class="names">
-	                    Maya
-	                    <span class="ampersand">&</span>
-	                    Ahmad
-	                </h1>
-	                <p class="wedding-date">27 June 2026</p>
-	                <p class="location">Relais La Due Matote — Bossolasco, Piedmont</p>
-	            </div>
-	        </div>
-
-	        <!-- Countdown below image -->
-	        <div class="hero-countdown-wrapper">
 	            <div class="countdown" id="countdown">
 	                <div class="countdown-item">
 	                    <span class="countdown-number" id="days">0</span>
@@ -896,11 +884,11 @@
 	                </div>
 	                <div class="countdown-item">
 	                    <span class="countdown-number" id="minutes">0</span>
-	                    <span class="countdown-label">Min</span>
+	                    <span class="countdown-label">Minutes</span>
 	                </div>
 	                <div class="countdown-item">
 	                    <span class="countdown-number" id="seconds">0</span>
-	                    <span class="countdown-label">Sec</span>
+	                    <span class="countdown-label">Seconds</span>
 	                </div>
 	            </div>
 	        </div>
