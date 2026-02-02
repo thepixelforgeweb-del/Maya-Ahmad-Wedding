@@ -62,59 +62,57 @@
 
 	        /* HERO */
 	        .hero {
+	            min-height: 100vh;
 	            display: flex;
 	            flex-direction: column;
 	            align-items: center;
+	            justify-content: center;
 	            text-align: center;
-	            padding: 0;
+	            padding: 2rem;
 	            position: relative;
+	            overflow: hidden;
 	            background-color: var(--blush);
-	            overflow: visible;
 	        }
 
 	        .hero-image-section {
-	            min-height: 100svh;
+	            position: absolute;
+	            top: 0;
+	            left: 0;
 	            width: 100%;
-	            position: relative;
-	            display: flex;
-	            flex-direction: column;
-	            align-items: center;
-	            justify-content: flex-end;
+	            height: 100%;
 	        }
 
 	        .hero-countdown-wrapper {
-	            padding: 40px 20px;
-	            width: 100%;
-	            display: flex;
-	            align-items: center;
-	            justify-content: center;
-	            background-color: var(--blush);
+	            display: none;
 	        }
 
 	        .hero-content {
 	            position: relative;
 	            z-index: 2;
 	            width: 100%;
-	            padding: 0 20px 20px 20px;
 	        }
 
 	        .hero-bg {
 	            position: absolute;
-	            top: 0; left: 0; right: 0; bottom: 0;
-	            /* On mobile, show the full image without cropping the sides */
-	            background-size: contain;
-	            background-position: top center;
-	            background-repeat: no-repeat;
-	            opacity: 0.85;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            background-size: cover;
+	            background-position: center;
+	            opacity: 0.7;
 	        }
 
 	        .hero-overlay {
 	            position: absolute;
-	            top: 0; left: 0; right: 0; bottom: 0;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
 	            background: linear-gradient(to bottom,
-	                rgba(255,250,248,0.15) 0%,
-	                rgba(255,250,248,0.05) 40%,
-	                rgba(255,250,248,0.35) 100%);
+	                rgba(255,250,248,0.3) 0%,
+	                rgba(255,250,248,0.1) 50%,
+	                rgba(255,250,248,0.4) 100%);
 	        }
 
 	        .hero-content {
