@@ -62,33 +62,41 @@
 
 	        /* HERO */
 	        .hero {
-	            min-height: 100svh;
 	            display: flex;
 	            flex-direction: column;
 	            align-items: center;
-	            justify-content: space-between;
 	            text-align: center;
 	            padding: 0;
 	            position: relative;
 	            background-color: var(--blush);
-	            overflow: hidden;
+	            overflow: visible;
 	        }
 
-	        .hero-countdown-wrapper {
-	            flex: 1;
+	        .hero-image-section {
+	            min-height: 100svh;
+	            width: 100%;
+	            position: relative;
 	            display: flex;
 	            align-items: center;
 	            justify-content: center;
+	        }
+
+	        .hero-countdown-wrapper {
+	            padding: 40px 20px;
 	            width: 100%;
-	            position: relative;
-	            z-index: 2;
+	            display: flex;
+	            align-items: center;
+	            justify-content: center;
+	            background-color: var(--blush);
 	        }
 
 	        .hero-content {
-	            padding: 40px 20px;
-	            position: relative;
+	            position: absolute;
+	            bottom: 40px;
+	            left: 20px;
+	            right: 20px;
 	            z-index: 2;
-	            width: 100%;
+	            width: calc(100% - 40px);
 	        }
 
 	        .hero-bg {
@@ -847,10 +855,24 @@
     </nav>
 
 	    <section class="hero">
-	        <div class="hero-bg" id="heroBg"></div>
-	        <div class="hero-overlay"></div>
+	        <!-- Image section with text overlay at bottom -->
+	        <div class="hero-image-section">
+	            <div class="hero-bg" id="heroBg"></div>
+	            <div class="hero-overlay"></div>
 
-	        <!-- Countdown in middle of empty space -->
+	            <!-- Text at bottom of image -->
+	            <div class="hero-content">
+	                <h1 class="names">
+	                    Maya
+	                    <span class="ampersand">&</span>
+	                    Ahmad
+	                </h1>
+	                <p class="wedding-date">27 June 2026</p>
+	                <p class="location">Relais La Due Matote — Bossolasco, Piedmont</p>
+	            </div>
+	        </div>
+
+	        <!-- Countdown below image -->
 	        <div class="hero-countdown-wrapper">
 	            <div class="countdown" id="countdown">
 	                <div class="countdown-item">
@@ -871,16 +893,6 @@
 	                </div>
 	            </div>
 	        </div>
-
-	        <!-- Text at bottom -->
-	        <div class="hero-content">
-            <h1 class="names">
-                Maya
-                <span class="ampersand">&</span>
-                Ahmad
-            </h1>
-            <p class="wedding-date">27 June 2026</p>
-            <p class="location">Relais La Due Matote — Bossolasco, Piedmont</p>
             
             <script>
                 (function initCountdown() {
