@@ -876,28 +876,7 @@
                 </div>
             </div>
 
-            <div class="event-stats">
-                <div class="event-stat">
-                    <div class="event-stat-title">Welcome Dinner</div>
-                    <div class="event-stat-value" id="event-welcome">0</div>
-                    <div class="event-stat-label">guests attending</div>
-                </div>
-                <div class="event-stat">
-                    <div class="event-stat-title">Ceremony</div>
-                    <div class="event-stat-value" id="event-ceremony">0</div>
-                    <div class="event-stat-label">guests attending</div>
-                </div>
-                <div class="event-stat">
-                    <div class="event-stat-title">Reception</div>
-                    <div class="event-stat-value" id="event-reception">0</div>
-                    <div class="event-stat-label">guests attending</div>
-                </div>
-                <div class="event-stat">
-                    <div class="event-stat-title">Farewell Brunch</div>
-                    <div class="event-stat-value" id="event-brunch">0</div>
-                    <div class="event-stat-label">guests attending</div>
-                </div>
-            </div>
+
 
             <div class="panel">
                 <div class="panel-header">
@@ -1338,19 +1317,16 @@
             // Event stats
             const welcomeCount = guests.filter(g => g.events.includes('welcome')).reduce((sum, g) => sum + g.partySize, 0);
             const ceremonyCount = guests.filter(g => g.events.includes('ceremony')).reduce((sum, g) => sum + g.partySize, 0);
-            const receptionCount = guests.filter(g => g.events.includes('reception')).reduce((sum, g) => sum + g.partySize, 0);
             const brunchCount = guests.filter(g => g.events.includes('brunch')).reduce((sum, g) => sum + g.partySize, 0);
 
             document.getElementById('event-welcome').textContent = welcomeCount;
             document.getElementById('event-ceremony').textContent = ceremonyCount;
-            document.getElementById('event-reception').textContent = receptionCount;
             document.getElementById('event-brunch').textContent = brunchCount;
 
             // Detail stats
             if (document.getElementById('event-welcome-detail')) {
                 document.getElementById('event-welcome-detail').textContent = welcomeCount;
                 document.getElementById('event-ceremony-detail').textContent = ceremonyCount;
-                document.getElementById('event-reception-detail').textContent = receptionCount;
                 document.getElementById('event-brunch-detail').textContent = brunchCount;
             }
         }
