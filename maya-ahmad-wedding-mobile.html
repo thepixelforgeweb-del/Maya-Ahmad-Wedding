@@ -66,12 +66,29 @@
 	            display: flex;
 	            flex-direction: column;
 	            align-items: center;
-	            justify-content: flex-end;
+	            justify-content: space-between;
 	            text-align: center;
-	            padding: 20px 20px 60px 20px;
+	            padding: 0;
 	            position: relative;
 	            background-color: var(--blush);
 	            overflow: hidden;
+	        }
+
+	        .hero-countdown-wrapper {
+	            flex: 1;
+	            display: flex;
+	            align-items: center;
+	            justify-content: center;
+	            width: 100%;
+	            position: relative;
+	            z-index: 2;
+	        }
+
+	        .hero-content {
+	            padding: 40px 20px;
+	            position: relative;
+	            z-index: 2;
+	            width: 100%;
 	        }
 
 	        .hero-bg {
@@ -832,6 +849,30 @@
 	    <section class="hero">
 	        <div class="hero-bg" id="heroBg"></div>
 	        <div class="hero-overlay"></div>
+
+	        <!-- Countdown in middle of empty space -->
+	        <div class="hero-countdown-wrapper">
+	            <div class="countdown" id="countdown">
+	                <div class="countdown-item">
+	                    <span class="countdown-number" id="days">0</span>
+	                    <span class="countdown-label">Days</span>
+	                </div>
+	                <div class="countdown-item">
+	                    <span class="countdown-number" id="hours">0</span>
+	                    <span class="countdown-label">Hours</span>
+	                </div>
+	                <div class="countdown-item">
+	                    <span class="countdown-number" id="minutes">0</span>
+	                    <span class="countdown-label">Min</span>
+	                </div>
+	                <div class="countdown-item">
+	                    <span class="countdown-number" id="seconds">0</span>
+	                    <span class="countdown-label">Sec</span>
+	                </div>
+	            </div>
+	        </div>
+
+	        <!-- Text at bottom -->
 	        <div class="hero-content">
             <h1 class="names">
                 Maya
@@ -840,25 +881,6 @@
             </h1>
             <p class="wedding-date">27 June 2026</p>
             <p class="location">Relais La Due Matote — Bossolasco, Piedmont</p>
-            
-            <div class="countdown" id="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="days">0</span>
-                    <span class="countdown-label">Days</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">0</span>
-                    <span class="countdown-label">Hours</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="minutes">0</span>
-                    <span class="countdown-label">Min</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="seconds">0</span>
-                    <span class="countdown-label">Sec</span>
-                </div>
-            </div>
             
             <script>
                 (function initCountdown() {
