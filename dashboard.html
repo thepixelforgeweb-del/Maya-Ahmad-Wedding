@@ -990,30 +990,25 @@
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label">Welcome Dinner</div>
+                    <div class="stat-label">Bohemian Night</div>
                     <div class="stat-value" id="event-welcome-detail">0</div>
-                    <div class="stat-subtext">Friday, 26 June — 7 PM</div>
+                    <div class="stat-subtext">Friday, 26 June — 6 PM</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Ceremony</div>
+                    <div class="stat-label">Wedding Ceremony & Reception</div>
                     <div class="stat-value" id="event-ceremony-detail">0</div>
-                    <div class="stat-subtext">Saturday, 27 June — 4 PM</div>
+                    <div class="stat-subtext">Saturday, 27 June — 5 PM</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Reception</div>
-                    <div class="stat-value" id="event-reception-detail">0</div>
-                    <div class="stat-subtext">Saturday, 27 June — 7 PM</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Farewell Brunch</div>
+                    <div class="stat-label">Pool Chill Day</div>
                     <div class="stat-value" id="event-brunch-detail">0</div>
-                    <div class="stat-subtext">Sunday, 28 June — 11 AM</div>
+                    <div class="stat-subtext">Sunday, 28 June — 1 PM</div>
                 </div>
             </div>
 
             <div class="panel" id="event-welcome-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Welcome Dinner Guests</h2>
+                    <h2 class="panel-title">Bohemian Night Guests</h2>
                 </div>
                 <div class="panel-body">
                     <div class="table-container">
@@ -1033,7 +1028,7 @@
 
             <div class="panel" id="event-ceremony-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Ceremony Guests</h2>
+                    <h2 class="panel-title">Wedding Ceremony & Reception Guests</h2>
                 </div>
                 <div class="panel-body">
                     <div class="table-container">
@@ -1050,30 +1045,9 @@
                 </div>
             </div>
 
-            <div class="panel" id="event-reception-panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Reception Guests</h2>
-                </div>
-                <div class="panel-body">
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Guest</th>
-                                    <th>Party Size</th>
-                                    <th>Meal Choice</th>
-                                    <th>Dietary Requirements</th>
-                                </tr>
-                            </thead>
-                            <tbody id="reception-guests"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
             <div class="panel" id="event-brunch-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Farewell Brunch Guests</h2>
+                    <h2 class="panel-title">Pool Chill Day Guests</h2>
                 </div>
                 <div class="panel-body">
                     <div class="table-container">
@@ -1096,16 +1070,6 @@
         <div id="section-dietary" class="section-hidden">
             <div class="page-header">
                 <h1 class="page-title">Dietary & Meal Summary</h1>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Meal Choices (Reception)</h2>
-                </div>
-                <div class="panel-body">
-                    <div class="dietary-summary" id="meal-summary">
-                    </div>
-                </div>
             </div>
 
             <div class="panel">
@@ -1245,10 +1209,6 @@
                         <div class="checkbox-item">
                             <input type="checkbox" id="dietary-halal">
                             <label for="dietary-halal">Halal</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="dietary-kosher">
-                            <label for="dietary-kosher">Kosher</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="dietary-dairy-free">
@@ -1487,21 +1447,6 @@
                 </tr>
             `).join('') || '<tr><td colspan="2" style="text-align: center; color: var(--text-light);">No guests yet</td></tr>';
 
-            // Reception
-            const receptionGuests = guests.filter(g => g.events.includes('reception'));
-            document.getElementById('reception-guests').innerHTML = receptionGuests.map(g => `
-                <tr>
-                    <td><div class="guest-name">${g.firstName} ${g.lastName}</div></td>
-                    <td><span class="guest-count">${g.partySize}</span></td>
-                    <td><span class="meal-choice">${g.meal ? capitalize(g.meal) : '—'}</span></td>
-                    <td>
-                        <div class="dietary-tags">
-                            ${[...g.dietary, ...g.allergies].map(d => `<span class="dietary-tag">${d}</span>`).join('') || '—'}
-                        </div>
-                    </td>
-                </tr>
-            `).join('') || '<tr><td colspan="4" style="text-align: center; color: var(--text-light);">No guests yet</td></tr>';
-
             // Brunch
             const brunchGuests = guests.filter(g => g.events.includes('brunch'));
             document.getElementById('brunch-guests').innerHTML = brunchGuests.map(g => `
@@ -1518,18 +1463,6 @@
         }
 
         function renderDietarySummary() {
-            // Meal summary
-            const meals = {};
-            guests.filter(g => g.meal && g.status === 'attending').forEach(g => {
-                meals[g.meal] = (meals[g.meal] || 0) + g.partySize;
-            });
-            document.getElementById('meal-summary').innerHTML = Object.entries(meals).map(([meal, count]) => `
-                <div class="dietary-item">
-                    <span class="dietary-item-label">${capitalize(meal)}</span>
-                    <span class="dietary-item-count">${count}</span>
-                </div>
-            `).join('') || '<p style="color: var(--text-light);">No meal choices recorded yet</p>';
-
             // Dietary summary
             const dietary = {};
             guests.filter(g => g.status === 'attending').forEach(g => {
@@ -1605,7 +1538,7 @@
             
             // Clear checkboxes
             ['event-welcome-check', 'event-ceremony-check', 'event-reception-check', 'event-brunch-check',
-             'dietary-vegetarian', 'dietary-vegan', 'dietary-gluten-free', 'dietary-halal', 'dietary-kosher', 'dietary-dairy-free']
+             'dietary-vegetarian', 'dietary-vegan', 'dietary-gluten-free', 'dietary-halal', 'dietary-dairy-free']
                 .forEach(id => document.getElementById(id).checked = false);
             
             currentAllergies = [];
@@ -1638,7 +1571,6 @@
             document.getElementById('dietary-vegan').checked = guest.dietary.includes('vegan');
             document.getElementById('dietary-gluten-free').checked = guest.dietary.includes('gluten-free');
             document.getElementById('dietary-halal').checked = guest.dietary.includes('halal');
-            document.getElementById('dietary-kosher').checked = guest.dietary.includes('kosher');
             document.getElementById('dietary-dairy-free').checked = guest.dietary.includes('dairy-free');
 
             currentAllergies = [...guest.allergies];
@@ -1672,7 +1604,6 @@
             if (document.getElementById('dietary-vegan').checked) dietary.push('vegan');
             if (document.getElementById('dietary-gluten-free').checked) dietary.push('gluten-free');
             if (document.getElementById('dietary-halal').checked) dietary.push('halal');
-            if (document.getElementById('dietary-kosher').checked) dietary.push('kosher');
             if (document.getElementById('dietary-dairy-free').checked) dietary.push('dairy-free');
 
             const guestData = {

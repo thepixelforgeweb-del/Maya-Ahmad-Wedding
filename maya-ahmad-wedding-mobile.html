@@ -550,6 +550,53 @@
             cursor: pointer;
         }
 
+        /* Allergies */
+        .allergy-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .allergy-input input {
+            flex: 1;
+        }
+
+        .allergy-input button {
+            padding: 8px 16px;
+            background: var(--rose);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .allergy-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            background: rgba(201, 169, 89, 0.15);
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .allergy-tag button {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .allergy-list {
+            margin-top: 0.5rem;
+        }
+
         /* Guest Counter */
         .guest-counter {
             display: flex;
@@ -852,7 +899,7 @@
         <div class="event-card">
             <p class="event-time">Friday, 26 June — 6:00 PM</p>
             <h3 class="event-name">Bohemian Night</h3>
-            <p class="event-details">Kick off the wedding weekend with a relaxed bohemian evening under the stars at Maison Arianna in Serravalle Langhe. Casual, free-spirited attire encouraged.</p>
+            <p class="event-details">Kick off the wedding weekend with a relaxed bohemian evening under the stars at Maison Otto in Serravalle Langhe. Casual, free-spirited attire encouraged.</p>
         </div>
 
         <div class="event-card">
@@ -862,7 +909,7 @@
         </div>
 
         <div class="event-card">
-            <p class="event-time">Sunday, 28 June — 12:00 PM</p>
+            <p class="event-time">Sunday, 28 June — 1:00 PM</p>
             <h3 class="event-name">Pool Chill Day</h3>
             <p class="event-details">A relaxed afternoon by the pool at Relais La Due Matote to unwind and enjoy each other's company. Bring your swimsuit!</p>
         </div>
@@ -884,7 +931,7 @@
         <div class="hotel-card">
             <p class="hotel-rating">★ 9.6 — Luxury B&B</p>
             <h3 class="hotel-name">Maison Otto</h3>
-            <p class="hotel-desc">Charming 19th-century residence with elegant rooms, infinity pool, and spa. Part of Le Due Matote.</p>
+            <p class="hotel-desc">Charming 19th-century residence with elegant rooms, pool, and spa. Part of Le Due Matote.</p>
             <a href="https://maisonotto.it/en/" target="_blank" class="hotel-link">View & Book →</a>
         </div>
 
@@ -913,14 +960,14 @@
             <p class="hotel-rating">★ 9.0 — Boutique B&B</p>
             <h3 class="hotel-name">La Piazzetta degli Artisti</h3>
             <p class="hotel-desc">Cozy B&B in Bossolasco's historic center with artistically decorated rooms.</p>
-            <a href="https://www.booking.com/hotel/it/la-piazzetta-degli-artisti.html" target="_blank" class="hotel-link">View & Book →</a>
+            <a href="https://katestravelexperience.eu/la-piazzetta-degli-artisti-boutique-b-amp-b-italy?correlationID=a42e8c54-b7cc-43c1-9c3f-c1e7793472fd" target="_blank" class="hotel-link">View & Book →</a>
         </div>
 
         <div class="hotel-card">
             <p class="hotel-rating">★ 8.9 — Historic Hotel</p>
             <h3 class="hotel-name">Hotel La Panoramica</h3>
             <p class="hotel-desc">Classic hotel with restaurant, garden, and stunning views. Walking distance to Bossolasco center.</p>
-            <a href="https://www.lapanoramicahotel.com/" target="_blank" class="hotel-link">View & Book →</a>
+            <a href="https://www.lapanoramica.com/en/" target="_blank" class="hotel-link">View & Book →</a>
         </div>
 
         <div class="hotel-card">
@@ -934,7 +981,7 @@
             <p class="hotel-rating">★ 8.5 — Budget-Friendly</p>
             <h3 class="hotel-name">Hotel Bellavista</h3>
             <p class="hotel-desc">Comfortable, affordable option with restaurant and views of the Langhe hills.</p>
-            <a href="https://www.booking.com/hotel/it/bellavista-bossolasco.html" target="_blank" class="hotel-link">View & Book →</a>
+            <a href="https://www.tripadvisor.com/Hotel_Review-g2213928-d2508409-Reviews-Hotel_Bellavista-Bossolasco_Province_of_Cuneo_Piedmont.html" target="_blank" class="hotel-link">View & Book →</a>
         </div>
     </section>
 
@@ -946,6 +993,11 @@
         <div class="travel-card">
             <h3 class="travel-title">✈️ By Air</h3>
             <p class="travel-text"><strong>Turin Airport (TRN)</strong> — 1.5 hours to Bossolasco<br><strong>Milan Malpensa (MXP)</strong> — 2.5 hours to Bossolasco</p>
+        </div>
+
+        <div class="travel-card">
+            <h3 class="travel-title">🚗 From Turin</h3>
+            <p class="travel-text">Renting a car or taking a taxi is recommended from Turin.</p>
         </div>
 
         <div class="travel-card">
@@ -964,10 +1016,10 @@
         <h2 class="section-title">While in Piedmont</h2>
         <div class="divider"></div>
 
-        <p class="intro-text">Piedmont is the birthplace of the Slow Food movement. The region is renowned for legendary wines like Barolo and Barbaresco, prized white truffles, and culinary heritage.</p>
+        <p class="intro-text">Piedmont is the birthplace of the Slow Food movement — a philosophy that celebrates local traditions, artisanal producers, and the joy of savoring food mindfully. The region is renowned for its legendary wines like Barolo and Barbaresco, prized white truffles, and a culinary heritage that has shaped Italian gastronomy. From hilltop castles to vineyard-covered valleys, there's much to explore.</p>
 
         <h3 class="subsection-title">🌹 In Bossolasco</h3>
-        <p class="intro-text" style="font-size: 14px;">Known as "Il Paese delle Rose" (The Village of Roses), with cobblestone streets lined with roses and spectacular Alpine views.</p>
+        <p class="intro-text" style="font-size: 14px;">Known as "Il Paese delle Rose" (The Village of Roses), Bossolasco sits at 750 meters in the Alta Langa. Wander the historic center's cobblestone streets lined with roses, explore the weekly markets, and enjoy spectacular views of the Alps.</p>
 
         <div class="place-card">
             <h4 class="place-name">Bossolasco Historic Center</h4>
@@ -976,16 +1028,21 @@
 
         <div class="place-card">
             <h4 class="place-name">Chiesa di San Giovanni Battista</h4>
-            <p class="place-info">Historic church with beautiful frescoes</p>
+            <p class="place-info">Historic church with beautiful frescoes and peaceful atmosphere</p>
         </div>
 
         <div class="place-card">
-            <h4 class="place-name">Parco delle Rose</h4>
-            <p class="place-info">Over 100 rose varieties — stunning in late June</p>
+            <h4 class="place-name">Parco delle Rose & Rose Garden Walk</h4>
+            <p class="place-info">Over 100 rose varieties in bloom — stunning in late June</p>
+        </div>
+
+        <div class="place-card">
+            <h4 class="place-name">Biancospino & Orchidea Trails</h4>
+            <p class="place-info">Scenic nature trails through forests and wildflower meadows</p>
         </div>
 
         <h3 class="subsection-title">🍷 Barolo Wine Country</h3>
-        <p class="intro-text" style="font-size: 14px;">Just 30 minutes away, home to some of Italy's most celebrated wines.</p>
+        <p class="intro-text" style="font-size: 14px;">Just 30 minutes from Bossolasco, the rolling hills of Barolo produce some of Italy's most celebrated wines. Book a vineyard tour and tasting at one of these renowned estates:</p>
 
         <div class="place-card">
             <h4 class="place-name">Marchesi di Barolo</h4>
@@ -995,33 +1052,33 @@
 
         <div class="place-card">
             <h4 class="place-name">Renato Ratti</h4>
-            <p class="place-info">Iconic producer in La Morra with stunning views</p>
+            <p class="place-info">Iconic producer in La Morra with stunning vineyard views</p>
             <a href="https://www.renatoratti.com/en/" target="_blank" class="place-link">Visit Website →</a>
         </div>
 
         <div class="place-card">
             <h4 class="place-name">Elio Grasso</h4>
-            <p class="place-info">Family-run winery, exceptional single-vineyard Barolos</p>
+            <p class="place-info">Family-run winery in Monforte d'Alba, exceptional single-vineyard Barolos</p>
             <a href="https://www.eliograsso.it/en/" target="_blank" class="place-link">Visit Website →</a>
         </div>
 
-        <h3 class="subsection-title">🏛️ Turin</h3>
-        <p class="intro-text" style="font-size: 14px;">About 1.5 hours away, Piedmont's elegant capital.</p>
+        <h3 class="subsection-title">🏛️ Further Afield — Turin</h3>
+        <p class="intro-text" style="font-size: 14px;">About 1.5 hours from Bossolasco, Turin is Piedmont's elegant capital. Consider a day trip before or after the wedding:</p>
 
         <div class="place-card">
             <h4 class="place-name">Museo Egizio</h4>
-            <p class="place-info">World's second-largest Egyptian museum</p>
+            <p class="place-info">The world's second-largest Egyptian museum — truly remarkable</p>
             <a href="https://museoegizio.it/en/" target="_blank" class="place-link">Visit Website →</a>
         </div>
 
         <div class="place-card">
-            <h4 class="place-name">Mole Antonelliana</h4>
-            <p class="place-info">Turin's iconic landmark with panoramic views</p>
+            <h4 class="place-name">Mole Antonelliana & Cinema Museum</h4>
+            <p class="place-info">Turin's iconic landmark with panoramic city views</p>
         </div>
 
         <div class="place-card">
-            <h4 class="place-name">Historic Cafés</h4>
-            <p class="place-info">Try a bicerin at Caffè Al Bicerin</p>
+            <h4 class="place-name">Historic Cafés & Aperitivo</h4>
+            <p class="place-info">Enjoy Turin's café culture — try a bicerin at Caffè Al Bicerin</p>
         </div>
     </section>
 
@@ -1043,12 +1100,6 @@
         <div class="place-card">
             <h4 class="place-name">Locanda del Camino</h4>
             <p class="place-info">Warm trattoria with traditional dishes. Book ahead.</p>
-        </div>
-
-        <div class="place-card">
-            <h4 class="place-name">Ristorante Al Biancospino</h4>
-            <p class="place-info">Traditional cuisine, great terrace, fresh seafood Fridays</p>
-            <a href="https://www.ristorantealbiancospino.it/" target="_blank" class="place-link">Visit Website →</a>
         </div>
 
         <div class="place-card">
@@ -1099,6 +1150,7 @@
 	            </div>
 	        </div>
 
+        <p style="text-align: center; margin: 20px 0; font-size: 14px; color: var(--text-soft);">Alternatively, you can donate to a cause close to our hearts:</p>
         <a href="https://www.healpalestine.org/" target="_blank" class="registry-btn">Give to HEAL Palestine Instead</a>
     </section>
 
@@ -1166,7 +1218,7 @@
                         <div class="event-select-header">
                             <div>
                                 <h4>Pool Chill Day</h4>
-                                <p>Sunday, 28 June</p>
+                                <p>Sunday, 28 June — 1:00 PM</p>
                             </div>
                             <div class="event-btns">
                                 <button type="button" class="event-btn" data-event="pool" data-value="yes">Yes</button>
@@ -1200,6 +1252,15 @@
                             <span>Halal</span>
                         </label>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Food Allergies</label>
+                    <div class="allergy-input">
+                        <input type="text" class="form-input" id="allergy-input" placeholder="Type allergy and press Add">
+                        <button type="button" onclick="addAllergyRSVP()">+ Add</button>
+                    </div>
+                    <div class="allergy-list" id="allergy-list"></div>
                 </div>
 
                 <div class="form-group">
@@ -3453,6 +3514,32 @@ cwjsvFPG4Wl2ruIsohMOamgBLcOu4WRq6D5cEw2dWYmZNAoX9BBcZG1Bn7ICaAv4O4RalqFMDZdL
         const attendingDetails = document.getElementById('attendingDetails');
         let guestCount = 1;
         let eventSelections = { bohemian: null, wedding: null, pool: null };
+        let currentAllergies = [];
+
+        // Allergy management functions
+        function addAllergyRSVP() {
+            const input = document.getElementById('allergy-input');
+            const allergy = input.value.trim().toLowerCase();
+            if (allergy && !currentAllergies.includes(allergy)) {
+                currentAllergies.push(allergy);
+                renderAllergyListRSVP();
+            }
+            input.value = '';
+        }
+
+        function removeAllergyRSVP(allergy) {
+            currentAllergies = currentAllergies.filter(a => a !== allergy);
+            renderAllergyListRSVP();
+        }
+
+        function renderAllergyListRSVP() {
+            document.getElementById('allergy-list').innerHTML = currentAllergies.map(a => `
+                <span class="allergy-tag">
+                    ${a}
+                    <button type="button" onclick="removeAllergyRSVP('${a}')">&times;</button>
+                </span>
+            `).join('');
+        }
 
         // Attendance toggle
         document.querySelectorAll('input[name="attendance"]').forEach(radio => {
@@ -3544,7 +3631,7 @@ cwjsvFPG4Wl2ruIsohMOamgBLcOu4WRq6D5cEw2dWYmZNAoX9BBcZG1Bn7ICaAv4O4RalqFMDZdL
                 events: events,
                 meal: '',
                 dietary: dietary,
-                allergies: [],
+                allergies: [...currentAllergies],
                 notes: document.getElementById('guestMessage').value || ''
             };
 
