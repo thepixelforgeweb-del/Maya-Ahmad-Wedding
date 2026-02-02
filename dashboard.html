@@ -1319,11 +1319,7 @@
             const ceremonyCount = guests.filter(g => g.events.includes('ceremony')).reduce((sum, g) => sum + g.partySize, 0);
             const brunchCount = guests.filter(g => g.events.includes('brunch')).reduce((sum, g) => sum + g.partySize, 0);
 
-            document.getElementById('event-welcome').textContent = welcomeCount;
-            document.getElementById('event-ceremony').textContent = ceremonyCount;
-            document.getElementById('event-brunch').textContent = brunchCount;
-
-            // Detail stats
+            // Update detail stats in Events Breakdown section
             if (document.getElementById('event-welcome-detail')) {
                 document.getElementById('event-welcome-detail').textContent = welcomeCount;
                 document.getElementById('event-ceremony-detail').textContent = ceremonyCount;
