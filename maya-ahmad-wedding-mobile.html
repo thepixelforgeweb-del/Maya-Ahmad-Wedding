@@ -106,53 +106,23 @@
 
 	        /* HERO */
 	        .hero {
-	            min-height: 100vh;
+	            min-height: 100svh;
 	            display: flex;
 	            flex-direction: column;
 	            align-items: center;
 	            justify-content: center;
 	            text-align: center;
-	            padding: 2rem;
+	            padding: 20px;
 	            position: relative;
-	            overflow: hidden;
 	            background-color: var(--blush);
-	        }
-
-	        .hero-image-section {
-	            display: none;
-	        }
-
-	        .hero-countdown-wrapper {
-	            display: none;
-	        }
-
-	        .hero-content {
-	            position: relative;
-	            z-index: 2;
-	            width: 100%;
 	        }
 
 	        .hero-bg {
 	            position: absolute;
-	            top: 0;
-	            left: 0;
-	            width: 100%;
-	            height: 100%;
+	            top: 0; left: 0; right: 0; bottom: 0;
 	            background-size: cover;
 	            background-position: center;
-	            opacity: 0.7;
-	        }
-
-	        .hero-overlay {
-	            position: absolute;
-	            top: 0;
-	            left: 0;
-	            width: 100%;
-	            height: 100%;
-	            background: linear-gradient(to bottom,
-	                rgba(255,250,248,0.3) 0%,
-	                rgba(255,250,248,0.1) 50%,
-	                rgba(255,250,248,0.4) 100%);
+	            opacity: 0.4;
 	        }
 
 	        .hero-content {
@@ -162,75 +132,54 @@
 
 	        .names {
 	            font-family: 'Cormorant Garamond', serif;
+	            font-size: 52px;
 	            font-weight: 300;
-	            font-size: clamp(3rem, 12vw, 8rem);
 	            line-height: 1.1;
-	            margin-bottom: 1rem;
+	            color: var(--text-primary);
 	        }
 
-	        .names .ampersand {
+	        .ampersand {
 	            display: block;
-	            font-size: 0.4em;
+	            font-size: 28px;
 	            color: var(--rose);
-	            margin: 0.2em 0;
-	            font-style: italic;
+	            margin: 5px 0;
 	        }
 
 	        .wedding-date {
-	            font-size: 0.85rem;
-	            letter-spacing: 0.4em;
+	            font-size: 14px;
+	            letter-spacing: 0.25em;
 	            text-transform: uppercase;
 	            color: var(--text-soft);
-	            margin-top: 2rem;
+	            margin-top: 20px;
 	        }
 
 	        .location {
 	            font-family: 'Cormorant Garamond', serif;
 	            font-style: italic;
-	            font-size: 1.3rem;
-	            color: var(--rose-muted);
-	            margin-top: 0.5rem;
+	            font-size: 18px;
+	            color: var(--rose);
+	            margin-top: 8px;
 	        }
 
 	        .countdown {
 	            display: flex;
 	            justify-content: center;
-	            gap: 2rem;
-	            margin-top: 2.5rem;
+	            gap: 15px;
+	            margin-top: 25px;
 	        }
 
-	        .countdown-item {
-	            display: flex;
-	            flex-direction: column;
-	            align-items: center;
-	        }
-
+	        .countdown-item { text-align: center; }
 	        .countdown-number {
 	            font-family: 'Cormorant Garamond', serif;
-	            font-size: 2.5rem;
+	            font-size: 32px;
 	            font-weight: 300;
-	            color: var(--text-primary);
-	            line-height: 1;
+	            display: block;
 	        }
-
 	        .countdown-label {
-	            font-size: 0.65rem;
+	            font-size: 10px;
 	            text-transform: uppercase;
-	            letter-spacing: 0.2em;
-	            color: var(--rose-muted);
-	            margin-top: 0.5rem;
-	        }
-
-	        @media (max-width: 600px) {
-	            .countdown {
-	                gap: 1rem;
-	            }
-	            .countdown-number {
-	                font-size: 1.8rem;
-	            }
-	            .countdown-label {
-	                font-size: 0.55rem;
-	            }
+	            letter-spacing: 0.15em;
+	            color: var(--rose);
 	        }
 
         /* SECTIONS */
@@ -929,7 +878,6 @@
 
 	    <section class="hero">
 	        <div class="hero-bg" id="heroBg"></div>
-	        <div class="hero-overlay"></div>
 	        <div class="hero-content">
 	            <h1 class="names">
 	                Maya
@@ -941,60 +889,23 @@
 
 	            <div class="countdown" id="countdown">
 	                <div class="countdown-item">
-	                    <span class="countdown-number" id="days">0</span>
+	                    <span class="countdown-number" id="days">---</span>
 	                    <span class="countdown-label">Days</span>
 	                </div>
 	                <div class="countdown-item">
-	                    <span class="countdown-number" id="hours">0</span>
+	                    <span class="countdown-number" id="hours">--</span>
 	                    <span class="countdown-label">Hours</span>
 	                </div>
 	                <div class="countdown-item">
-	                    <span class="countdown-number" id="minutes">0</span>
-	                    <span class="countdown-label">Minutes</span>
+	                    <span class="countdown-number" id="minutes">--</span>
+	                    <span class="countdown-label">Min</span>
 	                </div>
 	                <div class="countdown-item">
-	                    <span class="countdown-number" id="seconds">0</span>
-	                    <span class="countdown-label">Seconds</span>
+	                    <span class="countdown-number" id="seconds">--</span>
+	                    <span class="countdown-label">Sec</span>
 	                </div>
 	            </div>
 	        </div>
-            
-            <script>
-                (function initCountdown() {
-                    function updateCountdown() {
-                        // June 27, 2026 at 17:00 UAE time (UTC+4) = 13:00 UTC
-                        const weddingDate = new Date(Date.UTC(2026, 5, 27, 13, 0, 0)).getTime();
-                        const now = new Date().getTime();
-                        const diff = weddingDate - now;
-
-                        const daysEl = document.getElementById('days');
-                        const hoursEl = document.getElementById('hours');
-                        const minutesEl = document.getElementById('minutes');
-                        const secondsEl = document.getElementById('seconds');
-
-                        if (diff > 0) {
-                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                            if (daysEl) daysEl.textContent = days;
-                            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-                            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-                            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-                        } else {
-                            if (daysEl) daysEl.textContent = '0';
-                            if (hoursEl) hoursEl.textContent = '00';
-                            if (minutesEl) minutesEl.textContent = '00';
-                            if (secondsEl) secondsEl.textContent = '00';
-                        }
-                    }
-
-                    updateCountdown();
-                    setInterval(updateCountdown, 1000);
-                })();
-            </script>
-        </div>
     </section>
 
     <section id="schedule">
